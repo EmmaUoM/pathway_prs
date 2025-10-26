@@ -1,0 +1,21 @@
+globals:
+  cv_out: 10
+  cv_in: 10
+  cv_repeats: 10
+  centiloid_threshold: 20
+
+  'hyperparameters_RF':
+    'n_estimators': [ 100, 200, 500 ]
+  'hyperparameters_SVM_linear':
+    'C': [ 0.1, 1, 10, 100 ]
+  'hyperparameters_SVM_rbf':
+    'C': [ 0.1, 1, 10, 100 ]
+    'gamma': [ 0.001, 0.01, 0.1, 1 ]
+  hyperparameters_LA:
+    alpha: [0.1, 1.0, 10] 
+  hyperparameters_EN:
+    alpha: [0.1, 1.0, 10.0]
+    l1_ratio: [0.2, 0.5, 0.8]
+  hyperparameters_NN:
+    lr: [0.001, 0.01, 0.1]
+    weight_decay: [0.001, 0.01, 0.1]
