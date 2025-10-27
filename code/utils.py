@@ -10,7 +10,7 @@ from sklearn.metrics import precision_recall_curve, roc_curve
 from sklearn.metrics import f1_score, precision_score, recall_score, accuracy_score
 
 
-def load_config(config_path="/data/gpfs/projects/punim1484/emma/pathway_prs_ml/code/configs/config.yaml", experiment_name=None):
+def load_config(config_path="./configs/config.yaml", experiment_name=None):
     with open(config_path, 'r') as file:
         config = yaml.safe_load(file)
 
