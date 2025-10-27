@@ -161,8 +161,8 @@ def load_prs(experiment, config, model_cov=None):
 
     merged_df, all_feature_names = load_and_merge_profiles(directories)
 
-    cov_label_path = '/data/gpfs/projects/punim1484/emma/prs/sex_age_edu_Ab_adni.csv'
-    cov_label_aibl_path = '/data/gpfs/projects/punim1484/emma/prs/sex_age_edu_Ab_aibl.csv'
+    cov_label_path = 'sex_age_edu_Ab_adni.csv'
+    cov_label_aibl_path = 'sex_age_edu_Ab_aibl.csv'
     label_column = 'Abeta'
 
     # 合并包含 PTID 信息的 CSV 数据
