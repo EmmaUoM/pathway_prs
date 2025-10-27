@@ -37,7 +37,6 @@ def set_seed(seed=0):
         torch.backends.cudnn.benchmark = False
 
 def save_errors(y_test, y_pred, false_positives, false_negatives, true_positives, true_negatives, error_save_dir, fold_idx):
-    # 计算误差并排序
     errors = pd.DataFrame({
         'ID': y_test.index,
         'y_pred': y_pred,
@@ -55,13 +54,11 @@ def save_errors(y_test, y_pred, false_positives, false_negatives, true_positives
     true_positives_sorted = true_positives_df.sort_values(by='abs_error', ascending=False)
     true_negatives_sorted = true_negatives_df.sort_values(by='abs_error', ascending=False)
 
-    # 确保所有 DataFrame 的索引都是唯一的
     false_positives_sorted = false_positives_sorted.reset_index(drop=True)
     false_negatives_sorted = false_negatives_sorted.reset_index(drop=True)
     true_positives_sorted = true_positives_sorted.reset_index(drop=True)
     true_negatives_sorted = true_negatives_sorted.reset_index(drop=True)
 
-    # 创建 DataFrame 保存所有错误类型
     max_len = max(len(false_positives_sorted), len(false_negatives_sorted), len(true_positives_sorted), len(true_negatives_sorted))
 
     def pad_df(df, max_len):
