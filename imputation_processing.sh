@@ -125,7 +125,7 @@ prepare() {
             --output-chr "$OUTPUT_CHR" --out "$prefix"
         "$BCFTOOLS_BIN" sort "$prefix.vcf" -Oz -o "$out/vcf/chr$chr.vcf.gz"
         "$BCFTOOLS_BIN" index --tbi --threads "$THREADS" "$out/vcf/chr$chr.vcf.gz"
-        rm -- "$prefix.vcf" # Remove only the uncompressed intermediate we just created.
+        rm -- "$prefix.vcf"
     done
     log "Upload files are ready in $out/vcf. Select the actual input genome build on the server."
 }
@@ -188,12 +188,10 @@ process_imputed() {
         source=$(vcf_path "$input" "$chr")
         prefix="$out/plink/chr$chr"
         log "Filtering and converting chromosome $chr"
-        # A single VCF pass replaces separate SNP-selection and quality-filtering passes.
         "$BCFTOOLS_BIN" view --types snps --min-alleles 2 --max-alleles 2 \
             "${quality_args[@]}" --threads "$THREADS" \
             --output-type z --output-file "$out/vcf/chr$chr.filtered.vcf.gz" "$source"
         "$BCFTOOLS_BIN" index --tbi --threads "$THREADS" "$out/vcf/chr$chr.filtered.vcf.gz"
-        # BED contains GT hard calls, not the imputed DS dosage field.
         run_plink --vcf "$out/vcf/chr$chr.filtered.vcf.gz" \
             --keep-allele-order --double-id --make-bed --out "$prefix"
     done
@@ -259,7 +257,7 @@ clean_gwas() {
     [[ ! -e "$output" && ! -L "$output" ]] || die "Output already exists: $output"
     mkdir -p -- "$(dirname -- "$output")"
     temporary=$(mktemp "$output.tmp.XXXXXX")
-    # Filter by allele content, not fragile line numbers. Keep the original lines.
+
     if awk -v a="$a1" -v b="$a2" -v header="$header" '
         NR == 1 && header { print; next }
         NF == 0 { next }
